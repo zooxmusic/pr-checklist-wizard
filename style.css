@@ -1,0 +1,11 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+}
+
+#wizard {
+    max-width: 1200px;
+    text-align: left;
+    background-color: gray;
+}
+

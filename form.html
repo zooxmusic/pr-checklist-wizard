@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional Wizard Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <script src="https://cdn.form.io/js/formio.embed.js"></script>
+</head>
+<body class="p-5">
+    <div id="wizard"></div>
+
+    <script>
+        const workflowForm = {
+            "display": "wizard",
+            "components": [
+                {
+                    "title": "Workflow & JIRA Ticket Order",
+                    "type": "panel",
+                    "key": "step1",
+                    "components": [
+                        {
+                            "label": "Create Domain API Object(s) in dc-[domain]-api and relevant tests",
+                            "type": "fieldset",
+                            "key": "createDomainApi",
+                            "components": [
+                                {
+                                    "label": "Did you implement the correct type of interface?",
+                                    "type": "selectboxes",
+                                    "key": "interfaceType",
+                                    "values": [
+                                        { "label": "Aggregate", "value": "aggregate" },
+                                        { "label": "DomainObject", "value": "domainObject" },
+                                        { "label": "Entity", "value": "entity" },
+                                        { "label": "ValueObject", "value": "valueObject" }
+                                    ]
+                                },
+                                {
+                                    "label": "Did you define the properties correctly based on mandatory database fields?",
+                                    "type": "checkbox",
+                                    "key": "definedProperties"
+                                },
+                                {
+                                    "label": "Did you create a private static final ConstraintValidator validator?",
+                                    "type": "checkbox",
+                                    "key": "constraintValidator"
+                                },
+                                {
+                                    "label": "Did you write a Domain API object test?",
+                                    "type": "checkbox",
+                                    "key": "apiTest"
+                                },
+                                {
+                                    "label": "Did you implement happy_path?",
+                                    "type": "checkbox",
+                                    "key": "happyPath"
+                                },
+                                {
+                                    "label": "Did you implement allNullFields?",
+                                    "type": "checkbox",
+                                    "key": "allNullFields"
+                                },
+                                {
+                                    "label": "Did you implement invalidFields that are important?",
+                                    "type": "checkbox",
+                                    "key": "invalidFields"
+                                },
+                                {
+                                    "label": "If there is a typeIdOrNull, did you write a test for it?",
+                                    "type": "checkbox",
+                                    "key": "typeIdOrNull"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Unknowns (To Be Defined)",
+                    "type": "panel",
+                    "key": "step2",
+                    "components": [
+                        {
+                            "label": "When and where to create Aggregates and AggregateRoots?",
+                            "type": "textarea",
+                            "key": "aggregates"
+                        },
+                        {
+                            "label": "When and how to create TestContext, and how to reference it in legacy code while migrating to NextGen?",
+                            "type": "textarea",
+                            "key": "testContext"
+                        },
+                        {
+                            "label": "How do we handle tests being migrated to ensure a level of confidence?",
+                            "type": "textarea",
+                            "key": "testMigration"
+                        },
+                        {
+                            "label": "Unsure of what @TestHarness does, I guessed but need that documented. I see it lives in the dc-[domain]-domain module under src/main/test",
+                            "type": "textarea",
+                            "key": "testHarness"
+                        }
+                    ]
+                },
+                {
+                    "title": "Final Review",
+                    "type": "panel",
+                    "key": "finalStep",
+                    "components": [
+                        {
+                            "label": "Submit",
+                            "type": "button",
+                            "key": "submit",
+                            "input": true,
+                            "action": "submit"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        Formio.createForm(document.getElementById('wizard'), workflowForm);
+    </script>
+</body>
+</html>
