@@ -3,150 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PR Checklist Wizard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="icon" href="favicon.ico">
+    <title>Conditional Wizard Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.form.io/js/formio.embed.js"></script>
 </head>
-<body class="p-5">
-    <div class="container" id="wizard-container"></div>
+<body>
+    <div id="wizard"></div>
 
     <script>
-        if (!window.wizardState) {
-            window.wizardState = {
-                data: {
-                    "pages": [
+        const workflowForm = {
+            "display": "wizard",
+            "breadcrumb": "none",  /* Hide all steps except current */
+            "components": [
+                {
+                    "title": "Workflow & JIRA Ticket Order",
+                    "type": "panel",
+                    "key": "step1",
+                    "components": [
                         {
-                            "title": "Start Page",
-                            "description": "Choose an option to begin.",
-                            "type": "option",
-                            "options": [
-                                { "title": "Option A", "next": "pageA" },
-                                { "title": "Option B", "next": "pageB" }
+                            "label": "Create Domain API Object(s) in dc-[domain]-api and relevant tests",
+                            "type": "fieldset",
+                            "key": "createDomainApi",
+                            "components": [
+                                {
+                                    "label": "Did you implement the correct type of interface?",
+                                    "type": "radio",
+                                    "key": "interfaceType",
+                                    "values": [
+                                        { "label": "Aggregate", "value": "aggregate" },
+                                        { "label": "DomainObject", "value": "domainObject" },
+                                        { "label": "Entity", "value": "entity" },
+                                        { "label": "ValueObject", "value": "valueObject" }
+                                    ]
+                                },
+                                {
+                                    "label": "Did you define the properties correctly based on mandatory database fields?",
+                                    "type": "checkbox",
+                                    "key": "definedProperties"
+                                },
+                                {
+                                    "label": "Did you create a private static final ConstraintValidator validator?",
+                                    "type": "checkbox",
+                                    "key": "constraintValidator"
+                                },
+                                {
+                                    "label": "Did you write a Domain API object test?",
+                                    "type": "checkbox",
+                                    "key": "apiTest"
+                                }
                             ]
-                        },
-                        {
-                            "title": "Option A Page",
-                            "description": "You chose Option A. Now answer these questions.",
-                            "type": "checkbox",
-                            "questions": [
-                                { "label": "Did you complete Task 1?", "required": true },
-                                { "label": "Did you complete Task 2?", "required": false }
-                            ],
-                            "next": "final"
-                        },
-                        {
-                            "title": "Option B Page",
-                            "description": "You chose Option B. Now answer these questions.",
-                            "type": "checkbox",
-                            "questions": [
-                                { "label": "Did you review the documentation?", "required": true },
-                                { "label": "Did you test your code?", "required": false }
-                            ],
-                            "next": "final"
-                        },
-                        {
-                            "title": "Final Page",
-                            "description": "You're done! Submit your checklist.",
-                            "type": "final"
                         }
                     ]
                 },
-                currentPage: null,
-                pageStack: []
-            };
-        }
+                {
+                    "title": "Unknowns (To Be Defined)",
+                    "type": "panel",
+                    "key": "step2",
+                    "components": [
+                        {
+                            "label": "When and where to create Aggregates and AggregateRoots?",
+                            "type": "textarea",
+                            "key": "aggregates"
+                        }
+                    ]
+                },
+                {
+                    "title": "Final Review",
+                    "type": "panel",
+                    "key": "finalStep",
+                    "components": [
+                        {
+                            "label": "Submit",
+                            "type": "button",
+                            "key": "submit",
+                            "input": true,
+                            "action": "submit"
+                        }
+                    ]
+                }
+            ]
+        };
 
-        function navigateTo(page) {
-            if (window.wizardState.currentPage !== page) {
-                window.wizardState.pageStack.push(window.wizardState.currentPage); // Store previous page for Back navigation
-            }
-            window.wizardState.currentPage = page;
-            renderPage(page);
-        }
-        
-        function navigateBack() {
-            if (window.wizardState.pageStack.length > 0) {
-                window.wizardState.currentPage = window.wizardState.pageStack.pop();
-                renderPage(window.wizardState.currentPage);
-            }
-        }
-
-        function renderPage(page) {
-            console.log("Rendering page:", page.title, "Has questions?", Array.isArray(page.questions) ? page.questions.length : "No questions");
-            
-            const container = document.getElementById("wizard-container");
-            container.innerHTML = "";
-            
-            const title = document.createElement("h2");
-            title.textContent = page.title;
-            container.appendChild(title);
-            
-            const description = document.createElement("p");
-            description.textContent = page.description;
-            container.appendChild(description);
-            
-            if (page.type === "option" && Array.isArray(page.options)) {
-                const form = document.createElement("form");
-                page.options.forEach(opt => {
-                    const div = document.createElement("div");
-                    div.className = "form-check";
-                    
-                    const input = document.createElement("input");
-                    input.type = "radio";
-                    input.className = "form-check-input";
-                    input.name = "wizard-option";
-                    input.value = opt.title;
-                    input.id = `option-${opt.title}`;
-                    
-                    const label = document.createElement("label");
-                    label.className = "form-check-label";
-                    label.textContent = opt.title;
-                    label.setAttribute("for", `option-${opt.title}`);
-                    
-                    div.appendChild(input);
-                    div.appendChild(label);
-                    form.appendChild(div);
-                });
-                
-                const nextButton = document.createElement("button");
-                nextButton.className = "btn btn-primary mt-3";
-                nextButton.textContent = "Next";
-                nextButton.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    const selected = document.querySelector('input[name="wizard-option"]:checked');
-                    if (selected) {
-                        const nextPage = page.options.find(opt => opt.title === selected.value);
-                        if (nextPage) navigateTo(nextPage);
-                    }
-                });
-                
-                form.appendChild(nextButton);
-                container.appendChild(form);
-            }
-            
-            const navButtons = document.createElement("div");
-            navButtons.classList.add("mt-3");
-            
-            if (window.wizardState.pageStack.length > 0) {
-                const backButton = document.createElement("button");
-                backButton.className = "btn btn-secondary me-2";
-                backButton.textContent = "Back";
-                backButton.addEventListener("click", () => navigateBack());
-                navButtons.appendChild(backButton);
-            }
-            
-            if (page.isLeaf) {
-                const finishButton = document.createElement("button");
-                finishButton.className = "btn btn-success";
-                finishButton.textContent = "Finish";
-                finishButton.addEventListener("click", () => alert("Form submitted!"));
-                navButtons.appendChild(finishButton);
-            }
-            
-            container.appendChild(navButtons);
-        }
-        
-        document.addEventListener("DOMContentLoaded", () => navigateTo(window.wizardState.data.pages[0]));
+        Formio.createForm(document.getElementById('wizard'), workflowForm);
     </script>
 </body>
 </html>

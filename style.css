@@ -1,11 +1,58 @@
+/* Global Dark Mode */
 body {
     font-family: Arial, sans-serif;
-    background-color: black;
+    background-color: black !important;
+    color: white !important;
 }
 
+/* Center the Wizard and Adjust Styling */
 #wizard {
-    max-width: 1200px;
-    text-align: left;
-    background-color: gray;
+    max-width: 800px;
+    margin: 50px auto; /* Centers & adds top spacing */
+    background-color: #222 !important; /* Full black */
+    color: white !important; /* White text for readability */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2); /* Subtle glow */
 }
 
+/* Make radio buttons visible */
+input[type="radio"] {
+    accent-color: #007bff; /* Blue radio buttons */
+    transform: scale(1.5); /* Bigger */
+    filter: brightness(2); /* More visible */
+}
+
+/* Fix Labels to Ensure Readability */
+label {
+    color: white !important;
+}
+
+/* Style Form Buttons */
+button {
+    background-color: #007bff !important;
+    color: white !important;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
+}
+button:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Ensure Form Fields are Dark */
+input, textarea, select {
+    background-color: #444 !important;
+    color: white !important;
+    border: 1px solid #666 !important;
+}
+
+/* Ensure Dropdown Options are Readable */
+select option {
+    background-color: #222 !important;
+    color: white !important;
+}
