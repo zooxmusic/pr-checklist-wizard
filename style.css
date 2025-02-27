@@ -5,30 +5,59 @@ body {
     color: white !important;
 }
 
-/* Center the Wizard and Adjust Styling */
+/* Center the Wizard */
 #wizard {
     max-width: 800px;
-    margin: 50px auto; /* Centers & adds top spacing */
-    background-color: #222 !important; /* Full black */
-    color: white !important; /* White text for readability */
+    margin: 50px auto !important; /* Center it */
+    background-color: #222 !important; /* Dark background */
+    color: white !important;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2); /* Subtle glow */
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-/* Make radio buttons visible */
-input[type="radio"] {
-    accent-color: #007bff; /* Blue radio buttons */
-    transform: scale(1.5); /* Bigger */
-    filter: brightness(2); /* More visible */
+/* Force Dark Mode on All Inner Panels */
+.formio-form, .formio-component-panel, .panel {
+    background-color: #222 !important;
+    color: white !important;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-/* Fix Labels to Ensure Readability */
+/* Fix Full-Width Issue (Prevent Panels from Stretching) */
+.formio-component {
+    max-width: 750px !important; /* Prevents inner components from stretching */
+    margin: 0 auto !important; /* Centers content */
+}
+
+/* Make Radio Buttons & Checkboxes More Visible */
+input[type="radio"], input[type="checkbox"] {
+    accent-color: #007bff !important;
+    transform: scale(1.5);
+    filter: brightness(2);
+}
+
+/* Ensure Labels are White */
 label {
     color: white !important;
 }
 
-/* Style Form Buttons */
+/* Darken Input Fields */
+input, textarea, select {
+    background-color: #444 !important;
+    color: white !important;
+    border: 1px solid #666 !important;
+}
+select option {
+    background-color: #222 !important;
+    color: white !important;
+}
+
+/* Style Buttons */
 button {
     background-color: #007bff !important;
     color: white !important;
@@ -42,17 +71,4 @@ button {
 }
 button:hover {
     background-color: #0056b3 !important;
-}
-
-/* Ensure Form Fields are Dark */
-input, textarea, select {
-    background-color: #444 !important;
-    color: white !important;
-    border: 1px solid #666 !important;
-}
-
-/* Ensure Dropdown Options are Readable */
-select option {
-    background-color: #222 !important;
-    color: white !important;
 }

@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.form.io/js/formio.embed.js"></script>
+    <style>
+        body { background-color: black; color: white; }
+        #wizard { background-color: #222; color: white; }
+      </style>
 </head>
 <body>
     <div id="wizard"></div>
@@ -15,7 +19,8 @@
     <script>
         const workflowForm = {
             "display": "wizard",
-            "breadcrumb": "none",  /* Hide all steps except current */
+            "breadcrumb": "none",  /* Hide all steps */
+            "navigateOnEnter": false, /* Ensure steps don't auto-skip */
             "components": [
                 {
                     "title": "Workflow & JIRA Ticket Order",
